@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <table border="1px">
+        <thead>
+        <tr>
+            <th>Task ID</th>
+            <th>Task Name</th>
+            <th>Task Priority</th>
+            <th>Task Status</th>
+            <th>Task Date <br> yyyy-MM-dd</th>
+        </tr>
+        </thead>
+        <tbody align="center">
+        <tr th:each="task : ${listOfTasks}">
+            <td th:utext="${task.getId()}"></td>
+            <td th:utext="${task.taskName}"></td>
+            <td th:utext="${task.taskPriority}"></td>
+            <td th:utext="${task.taskStatus}"></td>
+            <td th:utext="${task.taskDate}"></td>
+<!--            ДЕНИС ДОДЕЛАЙ ЭТУ ХУЕТУ ПЖШКА *__* =*** <3-->
+            <td><button th:action="'/delete/' + ${task.getId()}" type="submit">Delete</button></td>
+        </tr>
+        </tbody>
+    </table>
+    <a href="/add_task">Add New Task</a>
+</body>
+</html>
