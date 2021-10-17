@@ -22,8 +22,9 @@
             <td th:utext="${task.taskPriority}"></td>
             <td th:utext="${task.taskStatus}"></td>
             <td th:utext="${task.taskDate}"></td>
-<!--            ДЕНИС ДОДЕЛАЙ ЭТУ ХУЕТУ ПЖШКА *__* =*** <3-->
-            <td><button th:action="'/delete/' + ${task.getId()}" type="submit">Delete</button></td>
+            <td><form th:action="'delete?id=' + ${task.getId()}" method="post">
+                <button type="submit">Видалити</button>
+            </form><br></td>
         </tr>
         </tbody>
     </table>

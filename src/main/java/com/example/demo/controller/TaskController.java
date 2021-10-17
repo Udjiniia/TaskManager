@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.text.ParseException;
-
 
 @Controller
 public class TaskController {
@@ -32,6 +30,7 @@ public class TaskController {
         model.addAttribute("listOfTasks", taskService.showTasks());
         return "tasks";
     }
+
     @PostMapping("/add_task")
     public String addTask(@RequestParam String taskName, @RequestParam int taskPriority, @RequestParam String taskDate,
                           @RequestParam boolean taskStatus) throws ParseException {
@@ -41,12 +40,10 @@ public class TaskController {
         return "add_task";
     }
 
-    //ДЕНИС ДОДЕЛАЙ ЭТУ ХУЕТУ ПЖШКА *__* =*** <3
-//    @DeleteMapping("/tasks/{id}")
-//    public String deleteTask(@PathVariable(value = "id") Long taskId){
-//        Task task = taskService.findTaskById(taskId);
-//        System.out.println(task.getTaskName());
-//        taskService.deleteTask(task);
-//        return "redirect:/tasks";
-//    }
+    @PostMapping("/delete")
+    public String deleteTask(@RequestParam(value="id") Long id){
+        Task task = taskService.findTaskById(id);
+        taskService.deleteTask(task);
+        return "redirect:/tasks";
+    }
 }
