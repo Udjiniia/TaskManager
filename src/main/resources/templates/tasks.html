@@ -20,10 +20,12 @@
             <td th:utext="${task.getId()}"></td>
             <td th:utext="${task.taskName}"></td>
             <td th:utext="${task.taskPriority}"></td>
-            <td th:utext="${task.taskStatus}"></td>
+            <div th:switch="${task.taskStatus}">
+                <td th:case='true'>Done</td>
+                <td th:case='false'>Unaccomplished</td>
             <td th:utext="${task.taskDate}"></td>
             <td><form th:action="'delete?id=' + ${task.getId()}" method="post">
-                <button type="submit">Видалити</button>
+                <button type="submit">Delete</button>
             </form><br></td>
         </tr>
         </tbody>
