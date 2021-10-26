@@ -19,10 +19,14 @@
         <tr th:each="task : ${listOfTasks}">
             <td th:utext="${task.getId()}"></td>
             <td th:utext="${task.taskName}"></td>
-            <td th:utext="${task.taskPriority}"></td>
+            <td th:if="${task.taskPriority.toString() == '1'}" th:utext="${task.taskPriority}" bgcolor="red"></td>
+            <td th:if="${task.taskPriority.toString() == '2'}" th:utext="${task.taskPriority}" bgcolor="yellow"></td>
+            <td th:if="${task.taskPriority.toString() == '3'}" th:utext="${task.taskPriority}" bgcolor="green"></td>
+            <td th:if="${task.taskPriority.toString() != '1' && task.taskPriority.toString() != '2' && task.taskPriority.toString() != '3'}" th:utext="${task.taskPriority}" bgcolor="green"></td>
             <div th:switch="${task.taskStatus}">
                 <td th:case='true'>Done</td>
                 <td th:case='false'>Unaccomplished</td>
+            </div>
             <td th:utext="${task.taskDate}"></td>
             <td><form th:action="'delete?id=' + ${task.getId()}" method="post">
                 <button type="submit">Delete</button>
