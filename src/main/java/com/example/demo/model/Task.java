@@ -1,7 +1,5 @@
 package com.example.demo.model;
 
-import java.util.Date;
-
 public class Task {
     private static Long counter = 0L;
     private Long id;
@@ -43,8 +41,8 @@ public class Task {
         this.taskName = taskName;
     }
 
-    public TaskPriority getTaskPriority() {
-        return taskPriority;
+    public int getTaskPriority() {
+        return taskPriority.getPriorityNumber();
     }
 
     public void setTaskPriority(TaskPriority taskPriority) {
@@ -67,5 +65,14 @@ public class Task {
         this.taskStatus = taskStatus;
     }
 
-
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", taskName='" + taskName + '\'' +
+                ", taskPriority=" + taskPriority +
+                ", taskDate=" + taskDate +
+                ", taskStatus=" + taskStatus +
+                '}';
+    }
 }

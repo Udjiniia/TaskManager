@@ -1,17 +1,10 @@
 package com.example.demo.controller;
-
 import com.example.demo.model.Task;
-import com.example.demo.model.TaskDate;
-import com.example.demo.model.TaskPriority;
 import com.example.demo.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -38,7 +31,7 @@ public class TaskController {
                 new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping(value = "/add_task")
+    @PostMapping(value = "/add-task")
     public ResponseEntity<?> addTask(@RequestBody Task task){
         boolean added = taskService.addTask(task);
         taskService.setTaskId(task);
@@ -61,10 +54,31 @@ public class TaskController {
                 new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
-    @PostMapping(value = "filter/{priority}")
-    public ResponseEntity<List<Task>> filterByPriority(@PathVariable(name = "priority") int priority){
+    @GetMapping(value = "/filter/priority")
+    public ResponseEntity<List<Task>> filterByPriority(@RequestParam int priority){
         final List<Task> tasks = taskService.filterByPriority(priority);
         return !tasks.isEmpty()? new ResponseEntity<>(tasks, HttpStatus.OK) :
+                new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping(value = "/filter/name")
+    public ResponseEntity<List<Task>> filterByPriority(@RequestParam String name){
+        final List<Task> tasks = taskService.filterByName(name);
+        return !tasks.isEmpty()? new ResponseEntity<>(tasks, HttpStatus.OK) :
+                new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping(value = "/filter/status")
+    public ResponseEntity<List<Task>> filterByPriority(@RequestParam boolean isDone){
+        final List<Task> tasks = taskService.filterByStatus(isDone);
+        return !tasks.isEmpty()? new ResponseEntity<>(tasks, HttpStatus.OK) :
+                new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping(value = "/tasks-paginated")
+    public ResponseEntity<List<Task>> showAllTasksPaginated(@RequestParam int size, @RequestParam int page){
+        final List<Task> tasks = taskService.showAllTasksPaginated(size, page);
+        return !tasks.isEmpty() ? new ResponseEntity<>(tasks, HttpStatus.OK) :
                 new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

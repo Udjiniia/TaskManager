@@ -6,6 +6,7 @@ import com.example.demo.repos.TaskManagerRepoImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,9 +48,43 @@ public class TaskService {
     }
 
     public List<Task> filterByPriority(int priority){
-        TaskPriority taskPriority =  new TaskPriority(priority);
-        return showAllTasks().stream()
-                .filter(task -> task.getTaskPriority().equals(taskPriority)).collect(Collectors.toList());
+        List<Task> tasks = new ArrayList<>();
+        for (Task task: showAllTasks()){
+            if (task.getTaskPriority() == priority){
+                tasks.add(task);
+            }
+        }
+        return tasks;
+    }
 
+    public List<Task> filterByName(String name){
+        List<Task> tasks = new ArrayList<>();
+        for (Task task: showAllTasks()){
+            if (task.getTaskName().equals(name)){
+                tasks.add(task);
+            }
+        }
+        return tasks;
+    }
+
+    public List<Task> filterByStatus(boolean isDone){
+        List<Task> tasks = new ArrayList<>();
+        for (Task task: showAllTasks()){
+            if (task.getTaskStatus() == isDone){
+                tasks.add(task);
+            }
+        }
+        return tasks;
+    }
+
+    public List<Task> showAllTasksPaginated(int size, int page){
+        ArrayList<Task> tasks = new ArrayList<>(showAllTasks());
+        int start = size*(page-1);
+        int end = size*page;
+        if (page*size <= tasks.size() && tasks.size() <= size) return tasks;
+        if (page*size > tasks.size()){
+            end = tasks.size();
+        }
+        return tasks.subList(start, end);
     }
 }

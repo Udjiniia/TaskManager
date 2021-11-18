@@ -46,4 +46,12 @@ public class TaskManagerRepoImpl implements TaskManagerRepo{
         }
         return false;
     }
+
+    @Override
+    public String toString() {
+        return tasksList.entrySet()
+                .stream()
+                .map(entry -> entry.getKey() + " - " + entry.getValue())
+                .collect(Collectors.joining(", "));
+    }
 }

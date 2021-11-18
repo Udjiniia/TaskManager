@@ -43,7 +43,13 @@ public class TaskManagerApplication {
         taskService.addTask(task2);
         taskService.setTaskId(task2);
 
-        System.out.println(taskService.showAllTasks());
-        taskService.filterByPriority(1);
+        Task task3 = new Task("Gaming", new TaskPriority(4),
+                new TaskDate("2021-11-12"), true);
+        taskService.addTask(task3);
+        taskService.setTaskId(task3);
+
+        System.out.println(taskService.showAllTasks().toString());
+        System.out.println(taskService.showAllTasksPaginated(3,2));
+
     }
 }
