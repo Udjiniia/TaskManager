@@ -1,28 +1,14 @@
 package com.example.demo.repos;
 
 import com.example.demo.model.Task;
-import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-@Repository
-public class TaskManagerRepo{
-    private List<Task> tasksList;
-
-    public TaskManagerRepo(){
-        this.tasksList = new ArrayList<>();
-    }
-
-    public void addTask(Task task){
-        tasksList.add(task);
-    }
-
-    public List<Task> showTasks(){
-        return tasksList;
-    }
-
-    public void deleteTask(Task task){
-        tasksList.remove(task);
-    }
+public interface TaskManagerRepo {
+    Collection<Task> showAllTasks();
+    Task showTask(Long id);
+    boolean addTask(Task task);
+    boolean deleteTask(Task task);
+    boolean updateTask(Long id, Task task);
 }

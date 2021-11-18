@@ -1,38 +1,55 @@
 package com.example.demo.service;
 
 import com.example.demo.model.Task;
-import com.example.demo.repos.TaskManagerRepo;
+import com.example.demo.model.TaskPriority;
+import com.example.demo.repos.TaskManagerRepoImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TaskService {
-    private TaskManagerRepo taskManagerRepo;
+    private TaskManagerRepoImpl taskManagerRepoImpl;
 
     @Autowired
-    public TaskService(TaskManagerRepo taskManagerRepo) {
-        this.taskManagerRepo = taskManagerRepo;
+    public TaskService(TaskManagerRepoImpl taskManagerRepoImpl) {
+        this.taskManagerRepoImpl = taskManagerRepoImpl;
     }
 
-    public void addTask(Task task){
-        taskManagerRepo.addTask(task);
+    public boolean addTask(Task task){
+        return taskManagerRepoImpl.addTask(task);
     }
 
-    public List<Task> showTasks(){
-        return taskManagerRepo.showTasks();
+    public List<Task> showAllTasks(){
+        return taskManagerRepoImpl.showAllTasks();
     }
 
-    public void deleteTask(Task task){
-        taskManagerRepo.deleteTask(task);
+    public Task showTask(Long id){
+        return taskManagerRepoImpl.showTask(id);
+    }
+
+    public boolean deleteTask(Task task){
+        return taskManagerRepoImpl.deleteTask(task);
     }
 
     public void setTaskId(Task task){
-        task.setId((long) showTasks().indexOf(task));
+        task.setId();
     }
 
     public Task findTaskById(Long id){
-        return showTasks().get(Math.toIntExact(id));
+        return taskManagerRepoImpl.showTask(id);
     }
 
+    public boolean updateTask(Long id, Task task){
+        return taskManagerRepoImpl.updateTask(id, task);
+    }
+
+    public List<Task> filterByPriority(int priority){
+        TaskPriority taskPriority =  new TaskPriority(priority);
+        return showAllTasks().stream()
+                .filter(task -> task.getTaskPriority().equals(taskPriority)).collect(Collectors.toList());
+
+    }
 }

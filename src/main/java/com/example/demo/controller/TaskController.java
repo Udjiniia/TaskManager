@@ -5,46 +5,66 @@ import com.example.demo.model.TaskDate;
 import com.example.demo.model.TaskPriority;
 import com.example.demo.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
+import java.util.List;
 
-@Controller
+@RestController
 public class TaskController {
 
-    private TaskService taskService;
+    private final TaskService taskService;
 
     @Autowired
     public TaskController(TaskService taskService) {
         this.taskService = taskService;
     }
 
-    @GetMapping("/add_task")
-    public String getPage(){
-        return "add_task";
+    @GetMapping(value = "/tasks")
+    public ResponseEntity<List<Task>> getAllTasks(){
+        final List<Task> tasks = taskService.showAllTasks();
+        return !tasks.isEmpty() ? new ResponseEntity<>(tasks, HttpStatus.OK) :
+                new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/tasks")
-    public String getTasks(Model model) {
-        model.addAttribute("listOfTasks", taskService.showTasks());
-        return "tasks";
+    @GetMapping(value = "/tasks/{id}")
+    public ResponseEntity<Task> showTask(@PathVariable(name = "id") Long id){
+        Task task = taskService.showTask(id);
+        return task!=null ? new ResponseEntity<>(task, HttpStatus.OK) :
+                new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("/add_task")
-    public String addTask(@RequestParam String taskName, @RequestParam int taskPriority, @RequestParam String taskDate,
-                          @RequestParam boolean taskStatus) throws ParseException {
-        Task task = new Task(taskName, new TaskPriority(taskPriority), new TaskDate(taskDate), taskStatus);
-        taskService.addTask(task);
+    @PostMapping(value = "/add_task")
+    public ResponseEntity<?> addTask(@RequestBody Task task){
+        boolean added = taskService.addTask(task);
         taskService.setTaskId(task);
-        return "add_task";
+        return added? new ResponseEntity<>(HttpStatus.CREATED) :
+                new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
-    @PostMapping("/delete")
-    public String deleteTask(@RequestParam(value="id") Long id){
+    @DeleteMapping(value = "delete/{id}")
+    public ResponseEntity<?> deleteTask(@PathVariable(name = "id") Long id){
         Task task = taskService.findTaskById(id);
-        taskService.deleteTask(task);
-        return "redirect:/tasks";
+        boolean deleted = taskService.deleteTask(task);
+        return deleted ? new ResponseEntity<>(HttpStatus.OK) :
+                new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+    }
+
+    @PostMapping(value = "update/{id}")
+    public ResponseEntity<Task> updateTask(@PathVariable(name = "id") Long id, @RequestBody Task task){
+        boolean updated = taskService.updateTask(id, task);
+        return updated? new ResponseEntity<>(task, HttpStatus.OK) :
+                new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+    }
+
+    @PostMapping(value = "filter/{priority}")
+    public ResponseEntity<List<Task>> filterByPriority(@PathVariable(name = "priority") int priority){
+        final List<Task> tasks = taskService.filterByPriority(priority);
+        return !tasks.isEmpty()? new ResponseEntity<>(tasks, HttpStatus.OK) :
+                new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

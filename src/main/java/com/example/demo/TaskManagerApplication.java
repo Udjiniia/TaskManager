@@ -11,26 +11,39 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
 import java.text.ParseException;
-import java.util.Calendar;
-import java.util.Date;
 
 @SpringBootApplication
 public class TaskManagerApplication {
 
-    @Autowired
-    private TaskService taskService;
+    private final TaskService taskService;
+
+    public TaskManagerApplication(TaskService taskService) {
+        this.taskService = taskService;
+    }
+
     public static void main(String[] args) {
         SpringApplication.run(TaskManagerApplication.class, args);
-//        ApplicationContext context = SpringApplication.run(TaskManagerApplication.class);
-        TaskManagerApplication taskManagerApplication = new TaskManagerApplication();
-//        taskManagerApplication.addTasks();
+
     }
 
     @Bean
     void addTasks() throws ParseException {
-        Task task = new Task("Denis", new TaskPriority(1),
+        Task task0 = new Task("Cleaning", new TaskPriority(2),
                 new TaskDate("2021-04-14"), false);
-        taskService.addTask(task);
-        taskService.setTaskId(task);
+        taskService.addTask(task0);
+        taskService.setTaskId(task0);
+
+        Task task1 = new Task("Homework", new TaskPriority(1),
+                new TaskDate("2021-10-10"), false);
+        taskService.addTask(task1);
+        taskService.setTaskId(task1);
+
+        Task task2 = new Task("Vacuuming", new TaskPriority(1),
+                new TaskDate("2021-08-12"), true);
+        taskService.addTask(task2);
+        taskService.setTaskId(task2);
+
+        System.out.println(taskService.showAllTasks());
+        taskService.filterByPriority(1);
     }
 }

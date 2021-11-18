@@ -3,14 +3,16 @@ package com.example.demo.model;
 import java.util.Date;
 
 public class Task {
+    private static Long counter = 0L;
     private Long id;
     private String taskName;
     private TaskPriority taskPriority;
     private TaskDate taskDate;
     private boolean taskStatus;
 
+
     public Task(String taskName, TaskPriority taskPriority, TaskDate taskDate, boolean taskStatus) {
-        this.id = id;
+        this.id = counter++;
         this.taskName = taskName;
         this.taskPriority = taskPriority;
         this.taskDate = taskDate;
@@ -21,8 +23,16 @@ public class Task {
         return id;
     }
 
+    public void setId() {
+        this.id = getCounter();
+    }
+
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public static Long getCounter() {
+        return counter;
     }
 
     public String getTaskName() {
