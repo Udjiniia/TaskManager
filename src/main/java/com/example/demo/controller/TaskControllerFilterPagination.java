@@ -31,20 +31,20 @@ public class TaskControllerFilterPagination {
     }
 
     @GetMapping(value = "/filter/name")
-    public ResponseEntity<List<Task>> filterByPriority(@RequestParam String name){
+    public ResponseEntity<List<Task>> filterByName(@RequestParam String name){
         final List<Task> tasks = taskServiceFilterPagination.filterByName(name);
         return !tasks.isEmpty()? new ResponseEntity<>(tasks, HttpStatus.OK) :
                 new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping(value = "/filter/status")
-    public ResponseEntity<List<Task>> filterByPriority(@RequestParam boolean isDone){
+    public ResponseEntity<List<Task>> filterByStatus(@RequestParam boolean isDone){
         final List<Task> tasks = taskServiceFilterPagination.filterByStatus(isDone);
         return !tasks.isEmpty()? new ResponseEntity<>(tasks, HttpStatus.OK) :
                 new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping(value = "/tasks-paginated")
+    @GetMapping(value = "/tasks_paginated")
     public ResponseEntity<List<Task>> showAllTasksPaginated(@RequestParam int size, @RequestParam int page){
         final List<Task> tasks = taskServiceFilterPagination.showAllTasksPaginated(size, page);
         return !tasks.isEmpty() ? new ResponseEntity<>(tasks, HttpStatus.OK) :

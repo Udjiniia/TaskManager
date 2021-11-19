@@ -32,7 +32,7 @@ public class TaskControllerCrud {
                 new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping(value = "/add-task")
+    @PostMapping(value = "/add_task")
     public ResponseEntity<?> addTask(@RequestBody Task task){
         boolean added = taskServiceCrud.addTask(task);
         taskServiceCrud.setTaskId(task);
@@ -48,7 +48,7 @@ public class TaskControllerCrud {
                 new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
-    @PostMapping(value = "update/{id}")
+    @PutMapping(value = "update/{id}")
     public ResponseEntity<Task> updateTask(@PathVariable(name = "id") Long id, @RequestBody Task task){
         boolean updated = taskServiceCrud.updateTask(id, task);
         return updated? new ResponseEntity<>(task, HttpStatus.OK) :
