@@ -9,17 +9,17 @@ import java.util.List;
 @Service
 public class TaskServiceFilterPagination {
 
-    private TaskServiceCrud taskServiceCrud;
+    private TaskServiceImpl taskServiceImpl;
 
     @Autowired
-    public TaskServiceFilterPagination(TaskServiceCrud taskServiceCrud) {
-        this.taskServiceCrud = taskServiceCrud;
+    public TaskServiceFilterPagination(TaskServiceImpl taskServiceImpl) {
+        this.taskServiceImpl = taskServiceImpl;
     }
 
 
     public List<Task> filterByPriority(int priority){
         List<Task> tasks = new ArrayList<>();
-        for (Task task: taskServiceCrud.showAllTasks()){
+        for (Task task: taskServiceImpl.getAllTasks()){
             if (task.getTaskPriority() == priority){
                 tasks.add(task);
             }
@@ -29,7 +29,7 @@ public class TaskServiceFilterPagination {
 
     public List<Task> filterByName(String name){
         List<Task> tasks = new ArrayList<>();
-        for (Task task: taskServiceCrud.showAllTasks()){
+        for (Task task: taskServiceImpl.getAllTasks()){
             if (task.getTaskName().toLowerCase().equals(name.toLowerCase())){
                 tasks.add(task);
             }
@@ -51,7 +51,7 @@ public class TaskServiceFilterPagination {
     }
 
     public List<Task> showAllTasksPaginated(int size, int page){
-        ArrayList<Task> tasks = new ArrayList<>(taskServiceCrud.showAllTasks());
+        ArrayList<Task> tasks = new ArrayList<>(taskServiceImpl.getAllTasks());
         int start = size*(page-1);
         int end = size*page;
         if (page*size <= tasks.size() && tasks.size() <= size) return tasks;

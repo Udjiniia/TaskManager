@@ -1,7 +1,6 @@
 package com.example.demo.repos;
 
 import com.example.demo.model.Task;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -10,9 +9,8 @@ import org.springframework.stereotype.Repository;
 import java.util.Collection;
 
 @Repository
-@AllArgsConstructor
 public class TaskManagerRepoImpl implements TaskManagerRepo {
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     @Value("${sql.task.create}")
     private String sqlCreate;
@@ -20,17 +18,22 @@ public class TaskManagerRepoImpl implements TaskManagerRepo {
     private String sqlReturnId;
     @Value("${sql.task.update}")
     private String sqlUpdate;
-    @Value("${sql.task.delete")
+    @Value("${sql.task.delete}")
     private String sqlDelete;
-    @Value("${sql.task.findByPriority")
+    @Value("${sql.task.findByPriority}")
     private String sqlFindByPriority;
-    @Value("${sql.task.countByPriority")
+    @Value("${sql.task.countByPriority}")
     private String sqlCountByPriority;
-    @Value("${sql.task.findByName")
+    @Value("${sql.task.findByName}")
     private String sqlFindByName;
     @Value("${sql.task.findAllTasks}")
     private String sqlFindAll;
+    @Value("${sql.task.findByID}")
+    private String sqlFindByID;
 
+    public TaskManagerRepoImpl(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @Override
     public Collection<Task> getAllTasks() {
@@ -45,8 +48,8 @@ public class TaskManagerRepoImpl implements TaskManagerRepo {
     }
 
     @Override
-    public void update(Task task) {
-        jdbcTemplate.update(sqlUpdate, task.getTaskName(), task.getTaskPriority(), task.getTaskDate(), task.isTaskStatus(), task.getId());
+    public void update(Task task, int id) {
+        jdbcTemplate.update(sqlUpdate, task.getTaskName(), task.getTaskPriority(), task.getTaskDate(), task.isTaskStatus(), id);
     }
 
     @Override
@@ -56,7 +59,7 @@ public class TaskManagerRepoImpl implements TaskManagerRepo {
 
     @Override
     public Task getByPriority(int priority) {
-        return jdbcTemplate.queryForObject(sqlFindByPriority, Task.class, priority);
+        return jdbcTemplate.queryForObject(sqlFindByPriority, new BeanPropertyRowMapper<>(Task.class), priority);
     }
 
     @Override
@@ -68,5 +71,10 @@ public class TaskManagerRepoImpl implements TaskManagerRepo {
     @Override
     public Collection<Task> getByName(String name) {
         return jdbcTemplate.query(sqlFindByName, new BeanPropertyRowMapper<>(Task.class), name);
+    }
+
+    @Override
+    public Task getByID(int id) {
+        return jdbcTemplate.queryForObject(sqlFindByID, new BeanPropertyRowMapper<>(Task.class), id);
     }
 }

@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Task;
-import com.example.demo.service.TaskServiceCrud;
 import com.example.demo.service.TaskServiceFilterPagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
