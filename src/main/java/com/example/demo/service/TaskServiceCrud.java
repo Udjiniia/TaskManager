@@ -20,31 +20,30 @@ public class TaskServiceCrud {
     }
 
     public boolean addTask(Task task){
-        return taskManagerRepoImpl.addTask(task);
+        throw  new UnsupportedOperationException();
     }
 
     public List<Task> showAllTasks(){
-        return taskManagerRepoImpl.showAllTasks();
+        throw  new UnsupportedOperationException();
     }
 
     public Task showTask(Long id){
-        return taskManagerRepoImpl.showTask(id);
+        throw  new UnsupportedOperationException();
     }
 
     public boolean deleteTask(Task task){
-        return taskManagerRepoImpl.deleteTask(task);
+        throw  new UnsupportedOperationException();
     }
 
     public void setTaskId(Task task){
-        task.setId();
+        throw  new UnsupportedOperationException();
     }
 
     public Task findTaskById(Long id){
-        return taskManagerRepoImpl.showTask(id);
+        throw  new UnsupportedOperationException();
     }
 
-    public boolean updateTask(Long id, Task task){
-        return taskManagerRepoImpl.updateTask(id, task);
+    public boolean updateTask(Long id, Task task){throw  new UnsupportedOperationException();
     }
 
 

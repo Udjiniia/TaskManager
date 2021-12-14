@@ -38,13 +38,16 @@ public class TaskServiceFilterPagination {
     }
 
     public List<Task> filterByStatus(boolean isDone){
-        List<Task> tasks = new ArrayList<>();
+        throw  new UnsupportedOperationException();
+        /*List<Task> tasks = new ArrayList<>();
         for (Task task: taskServiceCrud.showAllTasks()){
             if (task.getTaskStatus() == isDone){
                 tasks.add(task);
             }
         }
         return tasks;
+
+         */
     }
 
     public List<Task> showAllTasksPaginated(int size, int page){

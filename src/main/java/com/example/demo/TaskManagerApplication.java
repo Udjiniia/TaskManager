@@ -30,7 +30,8 @@ public class TaskManagerApplication {
 
     @Bean
     void addTasks() throws ParseException {
-        Task task0 = new Task("Cleaning", new TaskPriority(2),
+        throw new UnsupportedOperationException();
+        /*Task task0 = new Task("Cleaning", new TaskPriority(2),
                 new TaskDate("2021-04-14"), false);
         taskServiceCrud.addTask(task0);
         taskServiceCrud.setTaskId(task0);
@@ -51,6 +52,6 @@ public class TaskManagerApplication {
         taskServiceCrud.setTaskId(task3);
 
         System.out.println(taskServiceFilterPagination.filterByName("Vacuuming"));
-
+       */
     }
 }
