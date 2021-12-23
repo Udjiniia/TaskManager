@@ -1,69 +1,64 @@
 package com.example.demo.service;
 
 import com.example.demo.model.Task;
-import com.example.demo.model.TaskPriority;
-import com.example.demo.repos.TaskManagerRepo;
-import com.example.demo.repos.TaskManagerRepoImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.demo.repos.TaskManagerRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class TaskServiceImpl implements TaskService {
 
-    @Autowired
-    private TaskManagerRepo taskManagerRepo;
+    private TaskManagerRepository taskManagerRepository;
 
     @Override
-    public int createTask(Task task) {
-        return taskManagerRepo.createTask(task);
+    public Task createTask(Task task) {
+        return taskManagerRepository.save(task);
     }
 
     @Override
     public Collection<Task> getAllTasks() {
-        return taskManagerRepo.getAllTasks();
+        return (Collection<Task>) taskManagerRepository.findAll();
     }
 
     @Override
     public void deleteById(int id) {
-        taskManagerRepo.deleteById(id);
+        taskManagerRepository.deleteById(id);
     }
 
     @Override
     public void update(Task task, int id) {
-        Task oldTask = taskManagerRepo.getByID(id);
+        Task oldTask = taskManagerRepository.findById(id);
 
         if (oldTask.getTaskPriority() != task.getTaskPriority()) {
             System.out.println(oldTask.getTaskPriority());
             System.out.println(task.getTaskPriority());
 
             Task taskWithSamePriority = getByPriority(task.getTaskPriority());
-            int idOfTaskWithSamePriority = taskWithSamePriority.getId();
+            //int idOfTaskWithSamePriority = taskWithSamePriority.getId();
 
             taskWithSamePriority.setTaskPriority(oldTask.getTaskPriority());
 
-            taskManagerRepo.update(taskWithSamePriority, idOfTaskWithSamePriority);
+            taskManagerRepository.save(taskWithSamePriority);
         }
 
-        taskManagerRepo.update(task, id);
+        taskManagerRepository.save(task);
     }
 
     @Override
     public Task getByPriority(int priority) {
-        return taskManagerRepo.getByPriority(priority);
+        return taskManagerRepository.findByTaskPriority(priority);
     }
 
     @Override
     public Collection<Task> getByName(String name) {
-        return taskManagerRepo.getByName(name);
+        return taskManagerRepository.findByTaskName(name);
     }
 
     @Override
     public Task getById(int id) {
-        return taskManagerRepo.getByID(id);
+        return taskManagerRepository.findById(id);
     }
 }
