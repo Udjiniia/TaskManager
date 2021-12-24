@@ -7,6 +7,7 @@ import com.example.demo.repos.TaskManagerRepoImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -34,6 +35,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    @Transactional
     public void update(Task task, int id) {
         Task oldTask = taskManagerRepo.getByID(id);
 
