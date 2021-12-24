@@ -38,8 +38,8 @@ public class TaskControllerCrud {
 
     @PostMapping(value = "/add_task")
     public ResponseEntity<?> addTask(@RequestBody Task task) {
-        int lastId = taskServiceImpl.createTask(task);
-        return new ResponseEntity<>(lastId, HttpStatus.CREATED);
+        int priority = taskServiceImpl.createTask(task).getTaskPriority();
+        return new ResponseEntity<>(taskServiceImpl.getByPriority(priority).getId(), HttpStatus.CREATED);
     }
 
     @DeleteMapping(value = "delete/{id}")

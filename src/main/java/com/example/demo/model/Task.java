@@ -2,11 +2,17 @@ package com.example.demo.model;
 
 import lombok.Data;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
 
 @Data
+@Entity
+@Table(name = "task")
 public class Task {
 
+    @Id
     private int id;
     private String taskName;
     private int taskPriority;

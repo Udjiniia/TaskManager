@@ -8,14 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class TaskManagerApplication {
 
-    private final TaskServiceImpl taskServiceCrud;
-    private final TaskServiceFilterPagination taskServiceFilterPagination;
-
-    public TaskManagerApplication(TaskServiceImpl taskServiceCrud, TaskServiceFilterPagination taskServiceFilterPagination) {
-        this.taskServiceCrud = taskServiceCrud;
-        this.taskServiceFilterPagination = taskServiceFilterPagination;
-    }
-
     public static void main(String[] args) {
         SpringApplication.run(TaskManagerApplication.class, args);
 
